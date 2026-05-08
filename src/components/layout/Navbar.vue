@@ -20,9 +20,11 @@
           <SunIcon v-if="isDark" class="w-5 h-5" />
           <MoonIcon v-else class="w-5 h-5" />
         </button>
-        <div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-600">
-          <UserIcon class="w-5 h-5 text-slate-500 dark:text-slate-400" />
-        </div>
+        
+        <button @click="handleLogout" class="p-2 text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 focus:outline-none rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-2" title="Keluar">
+          <LogOutIcon class="w-5 h-5" />
+          <span class="text-sm font-medium hidden sm:block">Keluar</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -30,8 +32,17 @@
 
 <script setup>
 import { useTheme } from '../../composables/useTheme';
-import { Menu as MenuIcon, Sun as SunIcon, Moon as MoonIcon, User as UserIcon } from 'lucide-vue-next';
+import { useAuth } from '../../composables/useAuth';
+import { useRouter } from 'vue-router';
+import { Menu as MenuIcon, Sun as SunIcon, Moon as MoonIcon, LogOut as LogOutIcon } from 'lucide-vue-next';
 
 defineEmits(['toggle-sidebar']);
 const { isDark, toggleTheme } = useTheme();
+const { logout } = useAuth();
+const router = useRouter();
+
+const handleLogout = async () => {
+  await logout();
+  router.push('/login');
+};
 </script>
